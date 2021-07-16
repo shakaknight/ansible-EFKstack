@@ -11,6 +11,8 @@
   when: ansible_facts['distribution'] == "Ubuntu"
   block:
     - name: Installing java
+      become: true
+      become_user: root
       package:
         name: "{{ __java_packages }}"
         state: present
