@@ -28,7 +28,7 @@
   lineinfile:
     destfile: /etc/kibana/kibana.yml
     regexp: "elasticsearch.url:"
-    line: 'elasticsearch.url: "http://localhost:9200"'
+    line: 'elasticsearch.url: "http://{{ kibanaUrl }}:9200"'
 
 - name: restart Kibana
   notify: Starting Kibana
