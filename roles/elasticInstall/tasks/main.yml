@@ -26,8 +26,13 @@
         name: elasticsearch
         update_cache: yes
 
-    # Update Elasticsearch config file to allow access (to secure Elasticsearch, bind to 'localhost').
+    - name: Updating the name in config file
+      lineinfile:
+        destfile: /etc/elasticsearch/elasticsearch.yml
+        regexp: "node.name:"
+        line: "node.name: node-1"
 
+    # Update Elasticsearch config file to allow access (to secure Elasticsearch, bind to 'localhost').
     - name: Updating the config file to allow outside access
       lineinfile:
         destfile: /etc/elasticsearch/elasticsearch.yml
@@ -35,16 +40,15 @@
         line: "network.host: 0.0.0.0"
 
     # Update Elasticsearch port in config file
-
-    - name: Updating the name in config file
-      lineinfile:
-        destfile: /etc/elasticsearch/elasticsearch.yml
-        regexp: "node.name:"
-        line: "node.name: node-1"
-    
     - name: Updating the port in config file
       lineinfile:
         destfile: /etc/elasticsearch/elasticsearch.yml
         regexp: "http.port:"
         line: "http.port: 9200"
+
+    - name: Updating the master_node in config file
+      lineinfile:
+        destfile: /etc/elasticsearch/elasticsearch.yml
+        regexp: "cluster.intial_master_nodes:"
+        line: "cluster.intial_master_nodes: ["node-1"]"
       notify: Starting Elasticsearch

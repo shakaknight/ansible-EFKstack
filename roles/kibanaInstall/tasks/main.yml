@@ -4,31 +4,43 @@
 #
 
 # Install Kibana
+- name: Installing elastic Serch in ubuntu
+  when: ansible_facts['distribution'] == "Ubuntu"
+  block:
+    - name: Add Elasticsearch apt key
+      apt_key:
+        url: "https://packages.elastic.co/GPG-KEY-elasticsearch"
+        state: present
 
-- name: Install Kibana with apt
-  apt:
-    name: kibana
-    update_cache: yes
+    # Add the Elasticsearch apt repo. For versions 6 of the stack - use '6.x-prerelease':
 
-# Configurations
+    - name: Adding Elasticsearch repo
+      apt_repository:
+        repo: deb https://artifacts.elastic.co/packages/"{{ kibanaVersion }}".x/apt stable main
+        state: present
 
-- name: Updating the config file to allow outside access
-  lineinfile:
-    destfile: /etc/kibana/kibana.yml
-    regexp: "server.host:"
-    line: "server.host: 0.0.0.0"
+    - name: Install Kibana with apt
+      apt:
+        name: kibana
+        update_cache: yes
 
-- name: Defining server port
-  lineinfile:
-    destfile: /etc/kibana/kibana.yml
-    regexp: "server.port:"
-    line: "server.port: 5601"
+    # Configurations
 
-- name: Defining Elasticsearch URL
-  lineinfile:
-    destfile: /etc/kibana/kibana.yml
-    regexp: "elasticsearch.url:"
-    line: 'elasticsearch.url: "http://{{ kibanaUrl }}:9200"'
+    - name: Updating the config file to allow outside access
+      lineinfile:
+        destfile: /etc/kibana/kibana.yml
+        regexp: "server.host:"
+        line: "server.host: 0.0.0.0"
 
-- name: restart Kibana
-  notify: Starting Kibana
+    - name: Defining server port
+      lineinfile:
+        destfile: /etc/kibana/kibana.yml
+        regexp: "server.port:"
+        line: "server.port: 5601"
+
+    - name: Defining Elasticsearch URL
+      lineinfile:
+        destfile: /etc/kibana/kibana.yml
+        regexp: "elasticsearch.hosts:"
+        line: 'elasticsearch.hosts: ["http://{{ elasticUrl }}:9200"]'
+      notify: Starting Kibana
