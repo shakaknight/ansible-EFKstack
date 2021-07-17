@@ -1,2 +1,3 @@
 ---
 # defaults file for elasticInstall
+es_repo_base: "https://artifacts.elastic.co"

@@ -1,3 +1,4 @@
 ---
 # vars file for elasticInstall
 elasticVersion: 7
+es_repo_name: 7.x
