@@ -10,9 +10,13 @@
 - name: Installing java in ubuntu
   when: ansible_facts['distribution'] == "Ubuntu"
   block:
+    - name: Update 
+      apt:
+        update_cache: true
+        force_apt_get: true
     - name: Installing java
       become: true
       become_user: root
       package:
-        name: "{{ __java_packages }}"
+        name: openjdk-11-jdk
         state: present

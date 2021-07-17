@@ -1,4 +1,4 @@
 ---
 # vars file for kibanaInstall
 kibanaVersion: 7
-elsticUrl: 192.168.0.1
+elasticUrl: 65.2.144.50
