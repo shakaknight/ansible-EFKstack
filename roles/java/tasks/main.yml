@@ -4,8 +4,9 @@
   block:
     - name: Installing java
       package:
-        name: java
-        state: present
+        # name: java
+        name: java-1.8.0-openjdk
+        state: absent
 
 - name: Installing java in ubuntu
   when: ansible_facts['distribution'] == "Ubuntu"

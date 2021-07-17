@@ -4,15 +4,15 @@
   become: yes
   become_user: root
   roles:
-    - java
+    # - java
     - elasticInstall
 
-- hosts: kibanaHosts
-  gather_facts: True
-  become: yes
-  become_user: root
-  roles:
-    - kibanaInstall
+# - hosts: kibanaHosts
+#   gather_facts: True
+#   become: yes
+#   become_user: root
+#   roles:
+#     - kibanaInstall
 
 # - hosts: fluentBitHosts
 #   gather_facts: True
