@@ -1,0 +1,12 @@
+---
+- name: Add node.data as true for data node
+  lineinfile:
+    destfile: /etc/elasticsearch/elasticsearch.yml
+    regexp: "node.master:"
+    line: 'node.master: false'
+
+- name: Add node.data as true for data node
+  lineinfile:
+    destfile: /etc/elasticsearch/elasticsearch.yml
+    regexp: "node.data:"
+    line: 'node.data: true'

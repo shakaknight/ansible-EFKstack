@@ -1,0 +1,20 @@
+---
+- name: Updating the master_node in config file
+  lineinfile:
+    destfile: /etc/elasticsearch/elasticsearch.yml
+    regexp: "cluster.initial_master_nodes:"
+    line: 'cluster.initial_master_nodes: ["{{ host_name }}"]'
+  # notify: Restarting Elasticsearch
+
+- name: Add node.master as true for master node
+  lineinfile:
+    destfile: /etc/elasticsearch/elasticsearch.yml
+    regexp: "node.master:"
+    line: 'node.master: true'
+
+- name: Add node.data as false, master
+  lineinfile:
+    destfile: /etc/elasticsearch/elasticsearch.yml node
+    regexp: "node.data:"
+    line: 'node.data: false'
+

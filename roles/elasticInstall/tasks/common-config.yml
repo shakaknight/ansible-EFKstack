@@ -1,8 +1,14 @@
+- name: Adding cluster name
+  lineinfile:
+    destfile: /etc/elasticsearch/elasticsearch.yml
+    regexp: "cluster.name:"
+    line: "cluster.name: {{ cluster_name }}"
+
 - name: Updating the name in config file
   lineinfile:
     destfile: /etc/elasticsearch/elasticsearch.yml
     regexp: "node.name:"
-    line: "node.name: node-1"
+    line: "node.name: {{ host_name }}"
 
 # Update Elasticsearch config file to allow access (to secure Elasticsearch, bind to 'localhost').
 - name: Updating the config file to allow outside access
@@ -18,9 +24,8 @@
     regexp: "http.port:"
     line: "http.port: 9200"
 
-- name: Updating the master_node in config file
+- name: Updating the host in config file
   lineinfile:
     destfile: /etc/elasticsearch/elasticsearch.yml
-    regexp: "cluster.initial_master_nodes:"
-    line: 'cluster.initial_master_nodes: ["node-1"]'
-  notify: Starting Elasticsearch
+    regexp: "discovery.zen.ping.unicast.hosts:"
+    line: 'discovery.zen.ping.unicast.hosts: ["",""]'

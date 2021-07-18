@@ -46,3 +46,11 @@
 
     - name: Basic configuration
       include_tasks: common-config.yml
+    
+    - name: Configure if master
+      include_tasks: master-node-config.yml
+      when: '"elasticMaster" in group_names|string'
+
+    - name: Configure if data
+      include_tasks: data-node-config.yml
+      when: '"elasticData" in group_names|string'
