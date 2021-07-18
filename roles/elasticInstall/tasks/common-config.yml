@@ -29,3 +29,17 @@
     destfile: /etc/elasticsearch/elasticsearch.yml
     regexp: "discovery.zen.ping.unicast.hosts:"
     line: 'discovery.zen.ping.unicast.hosts: ["",""]'
+
+- name: Increasing max locked memory
+  lineinfile:
+    destfile: /etc/default/elasticsearch
+    regexp: "MAX_LOCKED_MEMORY="
+    line: "MAX_LOCKED_MEMORY=unlimited"
+
+- name: Adding minimum master nodes
+  lineinfile:
+    destfile: /etc/elasticsearch/elasticsearch.yml
+    regexp: "discovery.zen.minimum_master_nodes:"
+    line: "discovery.zen.minimum_master_nodes: 1"
+
+# discovery.zen.minimum_master_nodes:
