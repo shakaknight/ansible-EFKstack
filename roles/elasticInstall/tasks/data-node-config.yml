@@ -1,12 +1,38 @@
 ---
-- name: Add node.data as true for data node
-  lineinfile:
-    destfile: /etc/elasticsearch/elasticsearch.yml
-    regexp: "node.master:"
-    line: 'node.master: false'
+# - name: Updating the master_node in config file
+#   lineinfile:
+#     destfile: /etc/elasticsearch/elasticsearch.yml
+#     regexp: "cluster.initial_master_nodes:"
+#     line: 'cluster.initial_master_nodes: ["{{ host_name }}"]'
+#   notify: Starting Elasticsearch
 
-- name: Add node.data as true for data node
-  lineinfile:
-    destfile: /etc/elasticsearch/elasticsearch.yml
-    regexp: "node.data:"
-    line: 'node.data: true'
+# - name: Add node.data as true for data node
+#   lineinfile:
+#     destfile: /etc/elasticsearch/elasticsearch.yml
+#     regexp: "node.master:"
+#     line: 'node.master: false'
+
+# - name: Add node.data as true for data node
+#   lineinfile:
+#     destfile: /etc/elasticsearch/elasticsearch.yml
+#     regexp: "node.data:"
+#     line: 'node.data: true'
+
+# - name: Add node.ingest as true for data node
+#   lineinfile:
+#     destfile: /etc/elasticsearch/elasticsearch.yml
+#     regexp: "node.ingest:"
+#     line: 'node.ingest: true'
+
+# - name: Add attr rack
+#   lineinfile:
+#     destfile: /etc/elasticsearch/elasticsearch.yml
+#     regexp: "node.attr.rack:"
+#     line: 'node.attr.zone: 1'
+
+# - name: Add attr temp
+#   lineinfile:
+#     destfile: /etc/elasticsearch/elasticsearch.yml
+#     regexp: "node.attr.temp:"
+#     line: 'node.attr.temp: hot'
+  # notify: Starting Elasticsearch
