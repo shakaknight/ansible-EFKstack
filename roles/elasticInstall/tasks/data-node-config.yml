@@ -1,21 +1,21 @@
----
-- name: Add node.data as true for data node
-  lineinfile:
-    destfile: /etc/elasticsearch/elasticsearch.yml
-    regexp: "node.master:"
-    line: 'node.master: false'
+# ---
+# - name: Add node.data as true for data node
+#   lineinfile:
+#     destfile: /etc/elasticsearch/elasticsearch.yml
+#     regexp: "node.master:"
+#     line: 'node.master: false'
 
-- name: Add node.data as true for data node
-  lineinfile:
-    destfile: /etc/elasticsearch/elasticsearch.yml
-    regexp: "node.data:"
-    line: 'node.data: true'
+# - name: Add node.data as true for data node
+#   lineinfile:
+#     destfile: /etc/elasticsearch/elasticsearch.yml
+#     regexp: "node.data:"
+#     line: 'node.data: true'
 
-- name: Add node.ingest as true for data node
-  lineinfile:
-    destfile: /etc/elasticsearch/elasticsearch.yml
-    regexp: "node.ingest:"
-    line: 'node.ingest: true'
+# - name: Add node.ingest as true for data node
+#   lineinfile:
+#     destfile: /etc/elasticsearch/elasticsearch.yml
+#     regexp: "node.ingest:"
+#     line: 'node.ingest: true'
 
 # - name: Add attr rack
 #   lineinfile:

@@ -44,13 +44,33 @@
         name: elasticsearch
         update_cache: yes
 
-    - name: Basic configuration
-      include_tasks: common-config.yml
-    
-    - name: Configure if mastergit 
-      include_tasks: master-node-config.yml
-      when: '"elasticMaster" in group_names|string'
-
-    - name: Configure if data
-      include_tasks: data-node-config.yml
+    - name: Basic configuration for data
+      template:
+        src: "elasticsearch.yml.j2"
+        dest: "/etc/elasticsearch/elasticsearch.yml"
+      vars:
+        node_master: true
+        node_data: true
+        node_ingest: true        
+      notify: Starting Elasticsearch
       when: '"elasticData" in group_names|string'
+
+    - name: Basic configuration for master
+      template:
+        src: "elasticsearch.yml.j2"
+        dest: "/etc/elasticsearch/elasticsearch.yml"
+      vars:
+          node_master: true
+          node_data: false
+          node_ingest: false
+      notify: Starting Elasticsearch
+      when: '"elasticMaster" in group_names|string'
+      
+
+    # - name: Configure if mastergit 
+    #   include_tasks: master-node-config.yml
+    #   when: '"elasticMaster" in group_names|string'
+
+    # - name: Configure if data
+    #   include_tasks: data-node-config.yml
+    #   when: '"elasticData" in group_names|string'
