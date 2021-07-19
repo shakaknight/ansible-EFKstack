@@ -48,5 +48,3 @@
 #     destfile: /etc/elasticsearch/elasticsearch.yml
 #     regexp: "discovery.zen.minimum_master_nodes:"
 #     line: "discovery.zen.minimum_master_nodes: 1"
-
-# discovery.zen.minimum_master_nodes:
