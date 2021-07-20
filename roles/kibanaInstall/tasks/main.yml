@@ -1,9 +1,42 @@
 ---
 #
-# Installing Kibana
-#
+# Installing Kibana in Amazon Image
+- name: Installing java in linux
+  when: ansible_facts['distribution'] == "Amazon" or ansible_facts['distribution'] == "RedHat"
+  block:
+    - name: RedHat - add Elasticsearch repo
+      become: yes
+      template:
+        src: "kibana.repo"
+        dest: "/etc/yum.repos.d/kibana.repo"
 
-# Install Kibana
+    - name: Install kibana
+      become: yes
+      yum:
+        name: kibana
+        state: present
+        update_cache: yes
+
+    - name: Updating the config file to allow outside access
+      lineinfile:
+        destfile: /etc/kibana/kibana.yml
+        regexp: "server.host:"
+        line: "server.host: 0.0.0.0"
+
+    - name: Defining server port
+      lineinfile:
+        destfile: /etc/kibana/kibana.yml
+        regexp: "server.port:"
+        line: "server.port: 5601"
+
+    - name: Defining Elasticsearch URL
+      lineinfile:
+        destfile: /etc/kibana/kibana.yml
+        regexp: "elasticsearch.hosts:"
+        line: 'elasticsearch.hosts: ["http://{{ elasticUrl }}:9200"]'
+      notify: Starting Kibana
+
+# Install Kibana in Ubuntu
 - name: Installing elastic Serch in ubuntu
   when: ansible_facts['distribution'] == "Ubuntu"
   block:
