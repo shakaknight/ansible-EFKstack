@@ -5,7 +5,8 @@
   become_user: root
   roles:
     # - java
-    - elasticInstall
+    # - elasticInstall
+    - elasticUninstall
 
 # - hosts: kibanaHosts
 #   gather_facts: True
