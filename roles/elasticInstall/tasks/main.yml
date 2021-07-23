@@ -1,8 +1,6 @@
 ---
-#
-# Installing Elasticsearch
-#
-- name: Installing java in linux
+# Installing Elasticsearch in linux
+- name: Installing elasticsearch in linux
   when: ansible_facts['distribution'] == "Amazon" or ansible_facts['distribution'] == "RedHat"
   block:
     - name: RedHat - add Elasticsearch repo
@@ -18,10 +16,29 @@
         state: present
         update_cache: yes
 
-    - name: Basic configuration
-      include_tasks: common-config.yml
+    - name: Basic configuration for data
+      template:
+        src: "elasticsearch.yml.j2"
+        dest: "/etc/elasticsearch/elasticsearch.yml"
+      vars:
+        node_master: true
+        node_data: true
+        node_ingest: true        
+      notify: Starting Elasticsearch
+      when: '"elasticData" in group_names|string'
 
-# Add Elasticsearch apt key
+    - name: Basic configuration for master
+      template:
+        src: "elasticsearch.yml.j2"
+        dest: "/etc/elasticsearch/elasticsearch.yml"
+      vars:
+          node_master: true
+          node_data: false
+          node_ingest: false
+      notify: Starting Elasticsearch
+      when: '"elasticMaster" in group_names|string'
+
+# Installing for ubuntu
 - name: Installing elastic Serch in ubuntu
   when: ansible_facts['distribution'] == "Ubuntu"
   block:
@@ -31,14 +48,12 @@
         state: present
 
     # Add the Elasticsearch apt repo. For versions 6 of the stack - use '6.x-prerelease':
-
     - name: Adding Elasticsearch repo
       apt_repository:
         repo: deb https://artifacts.elastic.co/packages/"{{ elasticVersion }}".x/apt stable main
         state: present
 
     # Installing Elasticsearch
-
     - name: Install Elasticsearch
       apt:
         name: elasticsearch
@@ -74,3 +89,6 @@
     # - name: Configure if data
     #   include_tasks: data-node-config.yml
     #   when: '"elasticData" in group_names|string'
+
+    # - name: Basic configuration
+    #   include_tasks: common-config.yml
